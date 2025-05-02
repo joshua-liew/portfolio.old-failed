@@ -5,3 +5,7 @@ Started to idealize this project in the Fall of 2022 - 1st year of university - 
 However, it took me till the Spring of 2025 to actualize/implement a proper working portfolio website.
 
 Portfolio website (current): <https://joshualiew.com/home/>
+
+To view the old artboards, look in this the [artboards](https://github.com/joshua-liew/portfolio.old-failed/tree/master/artboards) directory.  
+
+![Old home page artboard!](/artboards/01_desktop_home.png)

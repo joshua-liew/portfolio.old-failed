@@ -1,0 +1,63 @@
+{% extends "en/base.html" %}
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+<div class="about-main container">
+    <section class="about grid-col-5">
+        <h1 class="about-title">About</h1>
+        <p class="about-text">Born and raised in Malaysia. As of 2023, pursuing my further studies in Japan. Hoping to be a good bearer of character, responsibility, hard work, and wisdom.</p>
+        <canvas class="about-image riv-image" id="book" width="440" height="200"></canvas>
+    </section>
+
+    <section class="story">
+        <div class="story-content grid-col-5">
+            <h2 class="story-title">Who I Was<i class="icon fa-solid fa-skull-crossbones"></i></h2>
+            <p class="story-text">To quote Dostoevsky from Notes from Underground: <span class="quote">"I could not become anything; neither good nor bad; neither a scoundrel nor an honest man; neither a hero nor an insect. And now I am eking out my days in my corner, taunting myself with the bitter and entirely uselss consolation that an intelligent man cannot seriously become anything, that only a fool can become something."</span> I was bitter and cynical, trapped within the prison of my heart. But a light broke in and set me on a journey to sail the sea.</p>
+            <div class="story-image">
+                <img class="past-image" src="{% static 'images/light.jpg' %}">
+            </div>
+        </div>
+        
+        <div class="story-content grid-col-5">
+            <h2 class="story-title">Who I Am<i class="icon fa-solid fa-sailboat"></i></h2>
+            <p class="story-text">C.S. Lewis on maps: <span class="quote">"... there are 2 things you have to remember about it. In the first place, it is based on what hundred and thousands of people have found out by sailing the real Atlantic. ... In the second place, if you want to go anywhere, the map is absolutely necessary. ... But you will not get to Newfoundland by studying the Atlantic that way, ... Neither will you get anywhere by looking at maps without going to sea. Nor will you go to sea without a map."</span> I am now learning how to sail the sea while leaning on the great traditions.</p>
+            <div class="story-image">
+                <img class="present-image" src="{% static 'images/ship.jpg' %}">
+            </div>
+        </div>
+        
+        <div class="story-content grid-col-5">
+            <h2 class="story-title">Who To Be<i class="icon fa-solid fa-route"></i></h2>
+            <p class="story-text">If I can borrow from Kierkegaard, I hope to be a person who 'wills the one thing'.</p>
+            <div class="story-image">
+                <img class="future-image" src="{% static 'images/saint.jpg' %}">
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block rive %}
+<script>
+    (() => {
+        const bookSection = document.querySelector(".about");
+        const book = new rive.Rive({
+            src: "{% static 'riv/book-small.riv' %}",
+            canvas: document.getElementById("book"),
+            autoplay: true,
+            stateMachines: "bookStateMachine",
+            onLoad: (_) => {
+                // Maintain devicePixelRatio
+                book.resizeDrawingSurfaceToCanvas();
+                // Get the inputs via the name of the state machine
+                const inputs = book.stateMachineInputs("bookStateMachine");
+                // Find the input you want to set a value for, or trigger
+                const bumpTrigger = inputs.find(i => i.name === "hover");
+                bookSection.onmouseover = () => bumpTrigger.fire();
+            },
+        });
+    })();
+</script>
+{% endblock %}

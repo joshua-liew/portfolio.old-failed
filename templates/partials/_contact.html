@@ -1,0 +1,29 @@
+{% if status == 'invalid_field' %}
+<button class="button form-button"
+    hx-post="{% url 'en:contact' %}"
+    hx-trigger="click delay:500ms"
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    hx-target=".form-controls"
+    hx-swap="innerHTML"
+>
+    Submit
+</button>
+<div class="form-error" style='color: red'>Make sure all fields are entered and valid.</div>
+
+{% elif status == 'invalid_header' %}
+<button class="button form-button"
+    hx-post="{% url 'en:contact' %}"
+    hx-trigger="click delay:500ms"
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    hx-target=".form-controls"
+    hx-swap="innerHTML"
+>
+    Submit
+</button>
+<div class="form-error" style='color: red'>Invalid header found.</div>
+
+{% elif status == 'success' %}
+<button class="button form-button disabled-button" disabled>Submit</button>
+<div class="form-error" style='color: green'>Thank you for contacting me!</div>
+
+{% endif %}

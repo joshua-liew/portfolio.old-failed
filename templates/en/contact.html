@@ -1,0 +1,62 @@
+{% extends "en/base.html" %}
+{% load static %}
+<!-- {% load i18n %} -->
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<div class="contact-main container">
+    <section class="contact grid-col-5">
+        <h1 class="contact-title">Contact</h1>
+        <!-- <p class="contact-text">{% trans "For inquiries, questions, and project proposals, do post your request(s)! Always open to work with NGOs and individual developers!" %}</p> -->
+        <p class="contact-text">For inquiries, questions, and project proposals, do post your request(s)! Always open to work with NGOs and individual developers!</p>
+        <canvas class="contact-image riv-image" id="typewriter" width="440" height="200"></canvas>
+    </section>
+
+    <section class="form grid-col-5">
+        <div class="form-image">
+            <img src="{% static 'images/journey.jpg' %}">
+        </div>
+        <form class="contact-form">
+        {% for field in form %}
+            <label class="label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        {% endfor %}
+        <div class="form-controls">
+            <button class="button form-button"
+                hx-post="{% url 'en:contact' %}"
+                hx-trigger="click delay:500ms"
+                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                hx-target=".form-controls"
+                hx-swap="innerHTML"
+            >
+                Submit
+            </button>
+        </div>
+        </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block rive %}
+<script>
+    (() => {
+        const typewriterSection = document.querySelector(".contact");
+        const typewriter = new rive.Rive({
+            src: "{% static 'riv/typewriter-small.riv' %}",
+            canvas: document.getElementById("typewriter"),
+            autoplay: true,
+            stateMachines: "typewriterStateMachine",
+            onLoad: (_) => {
+                // Maintain devicePixelRatio
+                typewriter.resizeDrawingSurfaceToCanvas();
+                // Get the inputs via the name of the state machine
+                const inputs = typewriter.stateMachineInputs("typewriterStateMachine");
+                // Find the input you want to set a value for, or trigger
+                const bumpTrigger = inputs.find(i => i.name === "hover");
+                typewriterSection.onmouseover = () => bumpTrigger.fire();
+            },
+        });
+    })();
+</script>
+{% endblock %}

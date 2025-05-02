@@ -1,0 +1,64 @@
+{% extends "en/base.html" %}
+{% load static %}
+
+{% block title %}Work{% endblock %}
+
+{% block content %}
+<div class="work-main container">
+    <section class="work grid-col-5">
+        <h1 class="work-title">Work</h1>
+        <p class="work-text">Looking for opportunities to work with non-profits and other individual developers in order to learn more skills and sharpen my current toolbox.</p>
+        <canvas class="work-image riv-image" id="painting" width="440" height="200"></canvas>
+    </section>
+
+    <section class="featured">
+        <div class="featured-header">
+            <h2 class="featured-title">Featured Projects</h2>
+            <p><a href="{% url 'en:work_all' %}" class="button button-small">View all projects</a></p>
+        </div>
+        {% if projects %}
+            {% for project in projects %}
+            <div class="card grid-col-2">
+                <h2 class="card-title">{{ project.title }}</h2>
+                <div class="card-info">
+                    <p class="card-date">Date: {{ project.date|date:'F Y' }}</p>
+                    <p class="card-type">Type: {{ project.get_category_display }}</p>
+                </div>
+                <p class="card-text">{{ project.info }}</p>
+                <div class="card-image">
+                    <img src="{{ project.image.url }}" alt="project image">
+                </div>
+                <p class="card-link"><a href="{{ project.page_link }}" class="button">Visit homepage</a></p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="card null">
+                <p><strong>Nothing to show yet...<br>Are you an NGO or individual developer?<br>Give me a chance!</strong></p>
+            </div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}
+
+{% block rive %}
+<script>
+    (() => {
+        const paintingSection = document.querySelector(".work");
+        const painting = new rive.Rive({
+            src: "{% static 'riv/painting-small.riv' %}",
+            canvas: document.getElementById("painting"),
+            autoplay: true,
+            stateMachines: "paintingStateMachine",
+            onLoad: (_) => {
+                // Maintain devicePixelRatio
+                painting.resizeDrawingSurfaceToCanvas();
+                // Get the inputs via the name of the state machine
+                const inputs = painting.stateMachineInputs("paintingStateMachine");
+                // Find the input you want to set a value for, or trigger
+                const bumpTrigger = inputs.find(i => i.name === "hover");
+                paintingSection.onmouseover = () => bumpTrigger.fire();
+            },
+        });
+    })();
+</script>
+{% endblock %}

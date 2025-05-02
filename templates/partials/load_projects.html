@@ -1,0 +1,74 @@
+{% if projects %}
+    {% for project in projects %}
+    <div class="card grid-col-2">
+        <h2 class="card-title">{{ project.title }}</h2>
+        <div class="card-info">
+            <p class="card-date">Date: {{ project.date|date:'F Y' }}</p>
+            <p class="card-category">Type: {{ project.get_category_display }}</p>
+            <p class="card-stack">Stack: {{ project.stack }}</p>
+            <p class="card-role">Role: {{ project.role }}</p>
+        </div>
+        <p class="card-text">{{ project.info }}</p>
+        <div class="card-image">
+            <img src="{{ project.image.url }}" alt="project image">
+        </div>
+        <p class="card-link">
+            {% if project.page_link %}
+            <a href="{{ project.page_link }}" class="button button-small">Visit homepage<i class="icon fa-solid fa-house"></i></a>
+            {% endif %}
+            {% if project.github_link %}
+            <a href="{{ project.github_link }}" class="button button-small">Github<i class="icon fa-brands fa-github"></i></i></a>
+            {% endif %}
+            {% if project.codepen_link %}
+            <a href="{{ project.codepen_link }}" class="button button-small">Codepen<i class="icon fa-brands fa-codepen"></i></a>
+            {% endif %}
+        </p>
+    </div>
+    {% endfor %}
+    <div class="grid-col-2" id="load">
+        <div class="load-content">
+            <p class="project-count">Showing {{ current_count }} / {{ all_count }}</p>
+            {% if current_count < all_count %}
+                {% if section == 'RW' %}
+                <input type="hidden" name="count" value="{{ current_count }}">
+                <button class="load-projects button button-small"
+                    hx-post="{% url 'en:load_realworld' %}"
+                    hx-trigger="click"
+                    hx-target="#load"
+                    hx-swap="outerHTML"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-include="[name='count']"
+                >Load more</button>
+                {% endif %}
+                
+                {% if section == 'PS' %}
+                <input type="hidden" name="count" value="{{ current_count }}">
+                <a class="load-projects button button-small" href="#"
+                    hx-post="{% url 'en:load_personal' %}"
+                    hx-trigger="click"
+                    hx-target="#load"
+                    hx-swap="outerHTML"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-include="[name='count']"
+                >Load more</a>
+                {% endif %}
+                
+                {% if section == 'CH' %}
+                <input type="hidden" name="count" value="{{ current_count }}">
+                <a class="load-projects button button-small" href="#"
+                    hx-post="{% url 'en:load_personal' %}"
+                    hx-trigger="click"
+                    hx-target="#load"
+                    hx-swap="outerHTML"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-include="[name='count']"
+                >Load more</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% else %}
+    <div class="card card-null">
+        <p><strong>Nothing to show yet...<br>I am working on it!<br>Give me a lil' more time!</strong></p>
+    </div>
+{% endif %}

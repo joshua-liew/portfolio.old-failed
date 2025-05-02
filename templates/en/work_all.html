@@ -1,0 +1,56 @@
+{% extends "en/base.html" %}
+
+{% block title %}Work{% endblock %}
+
+{% block content %}
+<div class="all-main container">
+    <section class="category">
+        <div class="category-header">
+            <h2 class="category-title">Real-world Projects</h2>
+            <button _="on click toggle .hidden on .category-1-assets" 
+                class="show-projects category-1-assets" aria-label="show projects" title="Show projects!">
+                <i class="fa-solid fa-angles-down"></i>
+            </button>
+            <button _="on click toggle .hidden on .category-1-assets" 
+                class="hide-projects hidden category-1-assets" aria-label="hide projects" title="Hide projects!">
+                <i class="fa-solid fa-angles-up"></i>
+            </button>
+        </div>
+        <div class="card-container hidden category-1-assets">
+        {% include "partials/load_projects.html" with projects=realworld_projects current_count=current_RW_count all_count=all_RW_count section="RW"%}
+        </div>
+    </section>
+
+    <section class="category">
+        <div class="category-header">
+            <h2 class="category-title">Personal Projects</h2>
+            <button _="on click toggle .hidden on .category-2-assets" 
+                class="show-projects category-2-assets" aria-label="show projects" title="Show projects!">
+                <i class="fa-solid fa-angles-down"></i>
+            </button>
+            <button _="on click toggle .hidden on .category-2-assets" 
+                class="hide-projects hidden category-2-assets" aria-label="hide projects" title="Hide projects!">
+                <i class="fa-solid fa-angles-up"></i>
+        </div>
+        <div class="card-container hidden category-2-assets">
+        {% include "partials/load_projects.html" with projects=personal_projects current_count=current_PS_count all_count=all_PS_count section="PS"%}
+        </div>
+    </section>
+    
+    <section class="category">
+        <div class="category-header">
+            <h2 class="category-title">Coding Challenges</h2>
+            <button _="on click toggle .hidden on .category-3-assets" 
+                class="show-projects category-3-assets" aria-label="show projects" title="Show projects!">
+                <i class="fa-solid fa-angles-down"></i>
+            </button>
+            <button _="on click toggle .hidden on .category-3-assets" 
+                class="hide-projects hidden category-3-assets" aria-label="hide projects" title="Hide projects!">
+                <i class="fa-solid fa-angles-up"></i>
+        </div>
+        <div class="card-container hidden category-3-assets">
+        {% include "partials/load_projects.html" with projects=challenge_projects current_count=current_CH_count all_count=all_CH_count section="CH"%}
+        </div>
+    </section>
+</div>
+{% endblock %}

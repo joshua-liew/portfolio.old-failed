@@ -1,0 +1,79 @@
+{% load static %}
+{% load django_htmx %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="htmx-config" content='{"historyCacheSize": 0, "refreshOnHistoryMiss": false}'>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <script src="https://unpkg.com/@rive-app/canvas@1.0.102"></script>
+    <script src="https://kit.fontawesome.com/8608bf0815.js" crossorigin="anonymous"></script>
+    <script defer src="{% static 'js/htmx.min.js' %}"></script>
+    <script defer src="{% static 'js/debug.js' %}"></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.8"></script>
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body hx-boost="true">
+    <header class="header container">
+        <div class="header-content">
+            <a href="{% url 'en:home' %}" class="logo-link">joshua liew</a>
+            <ul class="lang-list">
+                <li class="lang-item item-active"><a href="{% url 'en:language' current_page %}" class="lang-link">EN</a></li>
+                <li class="lang-item"><a href="#" class="lang-link">JP</a></li>
+            </ul>
+            <button _="on click toggle .visible on .nav" 
+            class="open-nav" aria-label="open navigation" ><i class="fa-solid fa-bars"></i></button>
+            
+            <nav class="nav">
+                <button _="on click toggle .visible on .nav" 
+                class="close-nav" aria-label="close navigation"><i class="fa-solid fa-xmark"></i></button>
+                
+                <ul class="nav-list">
+                    <li class="nav-item {% if current_page == 'home' %}item-active{% endif %}">
+                        <a href="{% url 'en:home' %}" class="nav-link">home</a>
+                    </li>
+                    <li class="nav-item {% if current_page == 'about' %}item-active{% endif %}">
+                        <a href="{% url 'en:about' %}" class="nav-link">about</a>
+                    </li>
+                    <li class="nav-item {% if current_page == 'work' or current_page == 'work_all' %}item-active{% endif %}">
+                        <a href="{% url 'en:work' %}" class="nav-link">work</a>
+                    </li>
+                    <li class="nav-item {% if current_page == 'contact' %}item-active{% endif %}">
+                        <a href="{% url 'en:contact' %}" class="nav-link">contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <div class="footer-border"></div>
+    <footer class="footer container">
+        <div class="footer-content">
+            <div class="footer-main">
+                <p class="footer-text">This website was created with:</p>
+                <p class="footer-text">Design Tools - Penpot, Rive <br> Tech Stack - Django, HTMX, Alpine.js</p>
+            </div>
+            <ul class="social-list">
+                <li class="social-item">
+                    <a href="https://github.com/Nakiri-Joe" class="social-link"><i class="fa-brands fa-github"></i></a>
+                </li>
+                <li class="social-item">
+                    <a href="https://www.linkedin.com/in/liew-joshua" class="social-link"><i class="fa-brands fa-linkedin"></i></a>
+                </li>
+            </ul>
+        </div>
+    </footer>
+
+    {% block rive %}{% endblock %}
+</body>
+</html>

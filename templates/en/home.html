@@ -1,0 +1,104 @@
+{% extends "en/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="main">
+    <section class="hero container">
+        <div class="hero-content grid-col-3">
+            <h1 class="hero-title">Joshua is a software engineering student at Aomori University.</h1>
+            <p class="hero-subtitle">An aspiring back-end web developer. Looking for opportunities to develop my skills with NGOs and other individual developers!</p>
+            <p class="hero-link"><a href="{% url 'en:contact' %}" class="hero-button button">Hit me up!</a></p>
+        </div>
+    </section>
+
+    <section class="info container">
+        <div class="info-content grid-col-3">
+            <div class="section">
+                <h2 class="section-title">About</h2>
+                <p class="section-subtitle">Who I was, who I am, and who I want to be. A rundown of me as a person and of some of the values I have grown to love.</p>
+                <p class="section-link">
+                    <a href="{% url 'en:about' %}" class="button" id="book-button">Check it out</a>
+                </p>
+                <canvas class="section-image riv-image" id="book" width="440" height="200"></canvas>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Work</h2>
+                <p class="section-subtitle">Real-world projects, personal projects, and more. A list of past works that would give you an idea of what I offer.</p>
+                <p class="section-link">
+                    <a href="{% url 'en:work' %}" class="button" id="painting-button">Check it out</a>
+                </p>
+                <canvas class="section-image riv-image" id="painting" width="440" height="200"></canvas>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Contact</h2>
+                <p class="section-subtitle">For inquiries, questions, and project proposals, feel free to get in touch. Awaiting your letters!</p>
+                <p class="section-link">
+                    <a href="{% url 'en:contact' %}" class="button" id="typewriter-button">Post a letter</a>
+                </p>
+                <canvas class="section-image riv-image" id="typewriter" width="440" height="200"></canvas>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% load static %}
+{% block rive %}
+<script>
+    (() => {
+        const bookButton = document.getElementById("book-button");
+        const book = new rive.Rive({
+            src: "{% static 'riv/book-small.riv' %}",
+            canvas: document.getElementById("book"),
+            autoplay: true,
+            stateMachines: "bookStateMachine",
+            onLoad: (_) => {
+                // Maintain devicePixelRatio
+                book.resizeDrawingSurfaceToCanvas();
+                // Get the inputs via the name of the state machine
+                const inputs = book.stateMachineInputs("bookStateMachine");
+                // Find the input you want to set a value for, or trigger
+                const bumpTrigger = inputs.find(i => i.name === "hover");
+                bookButton.onmouseover = () => bumpTrigger.fire();
+            },
+        });
+
+        const paintingButton = document.getElementById("painting-button");
+        const painting = new rive.Rive({
+            src: "{% static 'riv/painting-small.riv' %}",
+            canvas: document.getElementById("painting"),
+            autoplay: true,
+            stateMachines: "paintingStateMachine",
+            onLoad: (_) => {
+                // Maintain devicePixelRatio
+                painting.resizeDrawingSurfaceToCanvas();
+                // Get the inputs via the name of the state machine
+                const inputs = painting.stateMachineInputs("paintingStateMachine");
+                // Find the input you want to set a value for, or trigger
+                const bumpTrigger = inputs.find(i => i.name === "hover");
+                paintingButton.onmouseover = () => bumpTrigger.fire();
+            },
+        });
+
+        const typewriterButton = document.getElementById("typewriter-button");
+        const typewriter = new rive.Rive({
+            src: "{% static 'riv/typewriter-small.riv' %}",
+            canvas: document.getElementById("typewriter"),
+            autoplay: true,
+            stateMachines: "typewriterStateMachine",
+            onLoad: (_) => {
+                // Maintain devicePixelRatio
+                typewriter.resizeDrawingSurfaceToCanvas();
+                // Get the inputs via the name of the state machine
+                const inputs = typewriter.stateMachineInputs("typewriterStateMachine");
+                // Find the input you want to set a value for, or trigger
+                const bumpTrigger = inputs.find(i => i.name === "hover");
+                typewriterButton.onmouseover = () => bumpTrigger.fire();
+            },
+        });
+    })();
+</script>
+{% endblock %}

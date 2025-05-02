@@ -29,7 +29,7 @@ python manage.py runserver
 
 Portfolio website (current): <https://joshualiew.com/home/>
 
-The homepage of my portfolio prototype:  
+The homepage of my portfolio prototype __(old, failed attempt!)__ :  
 ![Prototype homepage image!](/artboards/10_prototype_home.png)
 
 To view the old artboards, look in this the [artboards](https://github.com/joshua-liew/portfolio.old-failed/tree/master/artboards) directory.  
